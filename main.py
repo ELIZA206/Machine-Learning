@@ -82,18 +82,18 @@ if __name__ == '__main__':
         print("Гипотеза не отвергается.")
 
     mean = np.mean(cars['pl_min'])
-    std = np.std(cars['pl_min'])
+    sс = np.std(cars['pl_min'])
 
     # Вычисляем ожидаемые частоты для нормального распределения
-    bins = sorted(set(cars['pl_min']))
-    print(bins)
-    expected_freq_norm = [len(cars['pl_min']) * stats.norm.cdf(bin, loc=mean, scale=std) for bin in bins]
+    datas = sorted(set(cars['pl_min']))
+    print(datas)
+    expected_freq_norm = [len(cars['pl_min']) * stats.norm.cdf(data, loc=mean, scale=sс) for data in datas]
     # Рассчитываем наблюдаемые частоты и частоты ожидаемые для распределения Пуассона
     observed_freq, _ = np.histogram(cars['pl_min'], bins=len(expected_freq_norm))
     observed_freq_arr = np.array(observed_freq)
     expected_freq_arr = np.array(expected_freq_norm)
     expected_freq_arr_norm = np.sum(observed_freq_arr) / np.sum(expected_freq_norm) * expected_freq_arr
-    expected_freq_puas = [sum(observed_freq_arr) * ((mean**bin * math.e**(-mean))/bin) for bin in bins[0:17]+bins[18:32]]
+    expected_freq_puas = [sum(observed_freq_arr) * ((mean**data * math.e**(-mean))/data) for data in datas[0:17]+datas[18:32]]
     expected_freq_puas.insert(17,sum(observed_freq_arr) * ((mean**0 * math.e**(-mean))))
     print(mean)
     print(sum(observed_freq_arr))
